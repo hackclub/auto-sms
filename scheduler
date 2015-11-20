@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# ------------------------
+# =    CALL SCHEDULER    =
+# ------------------------
+#              O
+#             (_)
+#           _ )_( _
+#         /`_) H (_`\
+#       .' (  { }  ) '.
+#     _/ /` '-'='-' `\ \_
+#    [_.'   _,...,_   '._]
+#     |   .:"`````":.   |
+#     |__//_________\\__|
+#      | .-----------. |
+#      | |  .-"""-.  | |
+#      | | /    /  \ | |
+#      | ||-   <   -|| |
+#      | | \    \  / | |
+#      | |[`'-...-'`]| |
+#      | | ;-.___.-; | |
+#      | | |  |||  | | |
+#      | | |  |||  | | |
+#      | | |  |||  | | |
+#      | | |  |||  | | |
+#      | | |  |||  | | |
+#      | | | _|||_ | | |
+#      | | | >===< | | |
+#      | | | |___| | | |
+#      | | |  |||  | | |
+#      | | |  ;-;  | | |
+#      | | | (   ) | | |
+#      | | |  '-'  | | |
+#      | | '-------' | |
+# jgs _| '-----------' |_
+#    [= === === ==== == =]
+#    [__--__--___--__--__]
+#   /__-___-___-___-___-__\
+#  `"""""""""""""""""""""""`
+
+# Club meetings times are stored in the ./clubs file
+source ./clubs
+
+NOW=$(date +%u-%H-%M)
+IFS='
+'
+
+for club in $(echo "${CLUBS[@]}"); do
+  time=$(echo "$club" | cut -d ':' -f1)
+  if [[ $NOW = $time ]]; then
+    name=$(echo "$club" | cut -d ':' -f2)
+    phone_number=$(echo "$club" | cut -d ':' -f3)
+    message="Hey $name! Just a quick reminder to put your attendance and curriculum data into bit.ly/hackedulabs!"
+    echo "$message" | ./twilio-sms $phone_number
+    # twilio-sms is from https://www.twilio.com/labs/bash/sms
+  fi
+done

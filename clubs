@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Club meeting data is formatted like this:
+# "date +%u%R:leader_name:phone_number"
+CLUBS=(
+
+)
